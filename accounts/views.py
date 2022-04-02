@@ -51,7 +51,7 @@ def register(request):
     else:
         return render(request, 'accounts/register.html')
 
-from django.contrib import messages, auth
+
 def login(request):
     if request.method == "POST":
         username = request.POST['username']
@@ -70,9 +70,13 @@ def login(request):
     else:
         return render(request, 'accounts/login.html')
 
-
+from django.contrib import messages, auth
 def logout(request):
-    return redirect('index')
+    if request.method == "POST":
+        auth.logout(request)
+        messages.success(request, 'You Are Now Logged Out')
+
+        return redirect('index')
 
 
 def dashboard(request):
