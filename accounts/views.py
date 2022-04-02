@@ -14,25 +14,25 @@ def register(request):
 
         # Check if password match
         if password == password2:
-            
+
             # Check UserName
             if User.objects.filter(username=username).exists():
                 messages.error(request, 'That UserName is Taken')
                 return redirect('register')
             else:
-                
+
                 if User.objects.filter(email=email).exists():
                     messages.error(request, 'That Email is Taken')
                     return redirect('register')
                 else:
                     # Looks Good
-                    user = User.objects.user = User.objects.create_user(
+                    user = User.objects.create_user(
                         first_name=first_name,
                         last_name=last_name,
                         username=username,
                         email=email,
                         password=password,
-                        password2=password2,
+                        # password2=password2
                     )
                     # Login After Register
                     # auth.login(request, user)
@@ -40,21 +40,33 @@ def register(request):
                     # return redirect('index')
                     user.save()
                     messages.success(
-                        request, 'You are now registered and can log in')
+                        request, 'You are now registered and can log in'
+                    )
                     return redirect('login')
-        
+
         else:
             messages.error(request, 'PassWord Does Not Match')
             return redirect('register')
-    
+
     else:
         return render(request, 'accounts/register.html')
 
-
+from django.contrib import messages, auth
 def login(request):
     if request.method == "POST":
-        #
-        return
+        username = request.POST['username']
+        password = request.POST['password']
+
+        user = auth.authenticate(username=username, password=password)
+
+        if user is not None:
+            auth.login(request, user)
+            messages.success(request, 'You are now loggid in')
+            return redirect('dashboard')
+        else:
+            messages.error(request, 'Invalide Credentials')
+            return redirect('login')
+
     else:
         return render(request, 'accounts/login.html')
 
