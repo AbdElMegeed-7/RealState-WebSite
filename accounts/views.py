@@ -35,9 +35,9 @@ def register(request):
                         # password2=password2
                     )
                     # Login After Register
-                    # auth.login(request, user)
-                    # messages.success(request, 'You are now Loggid in')
-                    # return redirect('index')
+                    auth.login(request, user)
+                    messages.success(request, 'You are now Loggid in')
+                    return redirect('index')
                     user.save()
                     messages.success(
                         request, 'You are now registered and can log in'
@@ -70,7 +70,7 @@ def login(request):
     else:
         return render(request, 'accounts/login.html')
 
-from django.contrib import messages, auth
+
 def logout(request):
     if request.method == "POST":
         auth.logout(request)
