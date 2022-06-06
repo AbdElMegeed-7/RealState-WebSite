@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 from django.contrib.messages import constants as messages
 import os
 from pathlib import Path
-
+import dj_database_url
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -81,19 +81,22 @@ WSGI_APPLICATION = 'RealState_Project.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-        # PostGreSQL SetUp
-        # 'ENGINE': 'django.db.backends.postgresql',
-        # 'NAME': 'The Name Of The Data Base',
-        # 'USER': 'Name Of The User',
-        # 'PASSWORD': 'The PassWord Of The USer',
-        # 'HOST': 'localhost',
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+# PostGreSQL SetUp
+# 'ENGINE': 'django.db.backends.postgresql',
+# 'NAME': 'The Name Of The Data Base',
+# 'USER': 'Name Of The User',
+# 'PASSWORD': 'The PassWord Of The USer',
+# 'HOST': 'localhost',
+#     }
+# }
 
+DATABASES = {
+    'default': dj_database_url.config(default='sqlite://db/mydatabase')
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
